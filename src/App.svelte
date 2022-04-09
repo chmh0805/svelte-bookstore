@@ -1,7 +1,7 @@
 <script>
-  import Book from './book.svelte'
-  import Button from './button.svelte'
-  import Cart from './cart.svelte'
+  import Book from './Book.svelte'
+  import Button from './Button.svelte'
+  import Cart from './Cart.svelte'
   let title = ''
   let price = 0
   let description = ''
