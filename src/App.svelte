@@ -1,12 +1,18 @@
 <script>
   import Book from './book.svelte'
   import Button from './button.svelte'
+  import Cart from './cart.svelte'
   let title = ''
   let price = 0
   let description = ''
   let books = []
+  let purchases = []
+  let totalPrice = 0
   function setTitle(event) {
     title = event.target.value
+  }
+  function setTotalPrice(value) {
+    totalPrice = value
   }
   function addBook() {
     const newBook = {
@@ -16,11 +22,34 @@
     }
     books = books.concat(newBook)
   }
+  function buyBook(purchase) {
+    for (var i = 0; i < books.length; i++) {
+      if (
+        books[i].title === purchase.title &&
+        books[i].price === purchase.price
+      ) {
+        books.splice(i, 1)
+        books = books
+        purchases = purchases.concat(purchase)
+        totalPrice = 0
+        for (let purchase of purchases) {
+          totalPrice += purchase.price
+        }
+        setTotalPrice(totalPrice)
+      }
+    }
+  }
 </script>
 
 <style>
   h1 {
     color: purple;
+  }
+  .cart-div {
+    margin: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-bottom: 1px dotted black;
   }
   section {
     margin: auto;
@@ -59,7 +88,23 @@
     <p>No books in stock.</p>
   {:else}
     {#each books as book}
-      <Book bookTitle={title} bookPrice={price} bookDescription={description} />
+      <Book
+        bookTitle={book.title}
+        bookPrice={book.price}
+        bookDescription={book.description}
+        {buyBook} />
     {/each}
+  {/if}
+  <hr />
+  <h2>Cart</h2>
+  {#if purchases.length === 0}
+    <p>No books in Cart.</p>
+  {:else}
+    <div class="cart-div">
+      {#each purchases as purchase}
+        <Cart title={purchase.title} price={purchase.price} />
+      {/each}
+    </div>
+    <span>Total Price: {totalPrice}</span>
   {/if}
 </section>
