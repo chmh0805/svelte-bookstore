@@ -1,30 +1,40 @@
 <script>
-	export let name;
+  import Book from './book.svelte'
+  let title = ''
+  let price = 0
+  let description = ''
+  function setTitle(event) {
+    title = event.target.value
+  }
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+  h1 {
+    color: purple;
+  }
+  section {
+    margin: auto;
+    width: 30rem;
+  }
+  label,
+  input,
+  textarea {
+    width: 100%;
+  }
 </style>
+
+<section>
+  <div>
+    <label for="title">Title</label>
+    <input type="text" id="title" bind:value={title} on:input={setTitle} />
+  </div>
+  <div>
+    <label for="price">Price</label>
+    <input type="number" id="price" bind:value={price} />
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <textarea rows="3" id="description" bind:value={description} />
+  </div>
+</section>
+<Book bookTitle={title} bookPrice={price} bookDescription={description} />
